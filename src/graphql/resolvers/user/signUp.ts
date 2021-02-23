@@ -1,19 +1,22 @@
 import { Resolver, Mutation, Arg } from 'type-graphql';
 import User from '../../types/User';
 import UserInputCreate from '../../input/UserCreateInput';
+import createRepositories from '../../../repositories';
+import services from '../../../services';
 
 @Resolver()
 class SignUpResolver {
   @Mutation(() => User, { description: 'Creates a new user on database' })
-  async signUp(
-    @Arg('input') input: UserInputCreate,
-  ): Promise<User> {
+  async signUp(@Arg('input') input: UserInputCreate) {
+    const { user } = createRepositories();
+    const { authService } = services;
 
-    return {
+    const hashedPassword = await authService.hashPassword(input.password);
+
+    return user.create({
       ...input,
-      id: 'fake-id',
-      createdAt: new Date().toISOString(),
-    };
+      password: hashedPassword,
+    });
   }
 }
 
