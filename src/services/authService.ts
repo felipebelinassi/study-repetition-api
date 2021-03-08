@@ -1,15 +1,10 @@
 import bcrypt from 'bcrypt';
+import { Service } from 'typedi';
 
-interface AuthService {
-  hashPassword: (password: string, salt?: number) => Promise<string>;
+@Service()
+export default class AuthService {
+  async hashPassword(password: string, salt = 10) {
+    return bcrypt.hash(password, salt);
+  }
 }
-
-const authService = (): AuthService => {
-  const hashPassword = async (password: string, salt = 10) => bcrypt.hash(password, salt);
-
-  return {
-    hashPassword,
-  };
-};
-
-export default authService;
+ 

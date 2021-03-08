@@ -1,19 +1,20 @@
+import { Container } from 'typedi';
 import { Resolver, Mutation, Arg } from 'type-graphql';
 import User from '../../types/User';
 import UserInputCreate from '../../input/UserCreateInput';
-import createRepositories from '../../../repositories';
-import services from '../../../services';
+import AuthService from '../../../services/authService';
+import UserRepository from '../../../repositories/userRepository';
 
 @Resolver()
 class SignUpResolver {
   @Mutation(() => User, { description: 'Creates a new user on database' })
   async signUp(@Arg('input') input: UserInputCreate) {
-    const { user } = createRepositories();
-    const { authService } = services;
+    const userRepository = Container.get(UserRepository);
+    const authService = Container.get(AuthService);
 
     const hashedPassword = await authService.hashPassword(input.password);
 
-    return user.create({
+    return userRepository.create({
       ...input,
       password: hashedPassword,
     });
