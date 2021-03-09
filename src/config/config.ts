@@ -15,6 +15,10 @@ const loadConfig = (schema: Joi.ObjectSchema, envs: NodeJS.ProcessEnv) => {
     database: {
       url: envVars.DATABASE_URL,
     },
+    auth: {
+      secret: envVars.JWT_SECRET_KEY,
+      expiresIn: envVars.TOKEN_EXPIRES_IN,
+    },
   };
 };
 

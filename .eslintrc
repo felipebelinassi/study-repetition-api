@@ -5,7 +5,8 @@
 		"jest": true
 	},
 	"extends": [
-		"airbnb-typescript/base", "prettier"
+		"airbnb-typescript/base",
+		"prettier"
 	],
 	"plugins": ["prettier"],
 	"parser": "@typescript-eslint/parser",
@@ -13,6 +14,7 @@
 		"project": "./tsconfig.json"
 	},
 	"rules": {
-		"class-methods-use-this": "off"
+		"class-methods-use-this": "off",
+		"max-classes-per-file": "off"
 	}
 }
