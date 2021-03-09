@@ -18,12 +18,11 @@ Container.set(UserRepository, userRepositoryMock());
 
 describe('Sign up mutation unit tests', () => {
   it('should return the created user', async () => {
-    const fakeUserParams = { 
+    const fakeUserParams = {
       username: 'johndoe',
       email: 'johndoe@gmail.com',
       password: 'p4$$w0rd',
     };
-
 
     const resolver = new SignUpResolver();
     const response = await resolver.signUp(fakeUserParams);
