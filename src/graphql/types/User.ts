@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export default class User {
+export class User {
   @Field()
   id!: string;
 
@@ -13,4 +13,13 @@ export default class User {
 
   @Field()
   createdAt!: Date;
+}
+
+@ObjectType()
+export class LoginResponse {
+  @Field(() => User)
+  user!: User;
+
+  @Field(() => String)
+  token!: string;
 }
