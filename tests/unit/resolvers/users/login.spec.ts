@@ -59,7 +59,7 @@ describe('Login mutation unit tests', () => {
     const response = await resolver.login(fakeEmail, fakePassword);
     expect(response).toEqual({
       token: expect.any(String),
-      user: fakeUser,
+      user: expect.objectContaining(fakeUser),
     });
   });
 });
