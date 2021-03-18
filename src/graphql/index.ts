@@ -17,7 +17,6 @@ const apolloServer = async () => {
     validationRules: [depthLimit(7)],
     playground: true,
   });
-
 };
 
 export default apolloServer;

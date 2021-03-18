@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi';
 import { PrismaClient, User } from '@prisma/client';
 import AuthService from '../services/authService';
 
-interface UserParams extends Omit<User, 'id' | 'createdAt'> {}
+type UserParams = Omit<User, 'id' | 'createdAt'>;
 
 @Service()
 export default class UserRepository {
@@ -14,9 +14,9 @@ export default class UserRepository {
 
   async create(params: UserParams) {
     const hashedPassword = await this.authService.hashPassword(params.password);
-  
+
     const user = await this.prisma.user.create({
-      data: { 
+      data: {
         ...params,
         password: hashedPassword,
       },

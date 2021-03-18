@@ -7,10 +7,7 @@ import UserRepository from '../../../repositories/userRepository';
 @Resolver()
 class LoginResolver {
   @Mutation(() => LoginResponse, { description: 'Sign-in by email and password' })
-  async login(
-    @Arg('email') email: string,
-      @Arg('password') password: string,
-  ): Promise<LoginResponse> {
+  async login(@Arg('email') email: string, @Arg('password') password: string) {
     const userRepository = Container.get(UserRepository);
     const authService = Container.get(AuthService);
 
@@ -22,7 +19,7 @@ class LoginResolver {
 
     const token = authService.generateToken({ ...user });
 
-    return { 
+    return {
       user,
       token,
     };

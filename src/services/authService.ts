@@ -17,4 +17,3 @@ export default class AuthService {
     return jwt.sign(payload, config.auth.secret, { expiresIn: config.auth.expiresIn });
   }
 }
- 

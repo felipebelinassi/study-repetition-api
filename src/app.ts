@@ -20,4 +20,3 @@ export const start = async (port: number): Promise<void> => {
     });
   });
 };
-

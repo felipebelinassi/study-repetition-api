@@ -4,16 +4,19 @@
 		"es2021": true,
 		"jest": true
 	},
+	"parser": "@typescript-eslint/parser", // Specifies the ESLint parser
+  "parserOptions": {
+		"project": "./tsconfig.json",
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
 	"extends": [
-		"airbnb-typescript/base",
-		"prettier"
-	],
-	"plugins": ["prettier"],
-	"parser": "@typescript-eslint/parser",
-	"parserOptions": {
-		"project": "./tsconfig.json"
-	},
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint", 
+    "plugin:prettier/recommended"
+  ],
 	"rules": {
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"class-methods-use-this": "off",
 		"max-classes-per-file": "off"
 	}
