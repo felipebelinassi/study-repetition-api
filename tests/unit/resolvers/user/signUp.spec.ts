@@ -27,9 +27,11 @@ describe('Sign up mutation unit tests', () => {
     const resolver = new SignUpResolver();
     const response = await resolver.signUp(fakeUserParams);
 
-    expect(response).toEqual(expect.objectContaining({
-      ...fakeUserParams,
-      password: expect.any(String),
-    }));
+    expect(response).toEqual(
+      expect.objectContaining({
+        ...fakeUserParams,
+        password: expect.any(String),
+      }),
+    );
   });
 });
