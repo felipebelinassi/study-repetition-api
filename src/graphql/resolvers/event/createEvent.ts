@@ -16,7 +16,8 @@ export default class CreateEventResolver {
     const eventSlug = slugify(title, { lower: true });
     const eventIdentifier = `${eventSlug}-${new Date().getTime()}`;
 
-    const newEvents = frequency.map((freq, index) => ({
+    // TODO: remove hardcoded user and use it from context
+    const newRepetitions = frequency.map((freq, index) => ({
       title,
       subjectId,
       repetition: index + 1,
@@ -25,9 +26,9 @@ export default class CreateEventResolver {
       date: addDays(startOfDay(startDate), freq),
     }));
 
-    const { count } = await eventRepository.createEvents(newEvents);
-    const events = await eventRepository.getEventsByIdentifier(eventIdentifier);
+    const { count } = await eventRepository.createRepetitions(newRepetitions);
+    const repetitions = await eventRepository.getRepetitionsByIdentifier(eventIdentifier);
 
-    return { count, events };
+    return { count, repetitions };
   }
 }

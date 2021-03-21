@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { PrismaClient } from '@prisma/client';
 
-interface EventParams {
+interface RepetitionParams {
   userId: string;
   identifier: string;
   subjectId: string;
@@ -15,13 +15,13 @@ export default class EventRepository {
   @Inject('prisma')
   private prisma!: PrismaClient;
 
-  async createEvents(params: EventParams[]) {
+  async createRepetitions(params: RepetitionParams[]) {
     return await this.prisma.event.createMany({
       data: params,
     });
   }
 
-  async getEventsByIdentifier(identifier: string) {
+  async getRepetitionsByIdentifier(identifier: string) {
     return await this.prisma.event.findMany({
       where: { identifier },
       include: {

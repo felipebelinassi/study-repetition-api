@@ -10,7 +10,7 @@ export class Subject {
 }
 
 @ObjectType()
-class Event {
+class Repetition {
   @Field()
   id!: string;
 
@@ -38,6 +38,6 @@ export class CreateEventsResponse {
   @Field()
   count!: number;
 
-  @Field(() => [Event])
-  events!: Event[];
+  @Field(() => [Repetition])
+  repetitions!: Repetition[];
 }
