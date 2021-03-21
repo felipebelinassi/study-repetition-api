@@ -29,6 +29,7 @@ model Subject {
 
 model Event {
   id            String @id @default(uuid())
+  identifier    String
   subject       Subject @relation(fields: [subjectId], references: [id])
   subjectId     String @map("subject_id")
   repetition    Int
