@@ -18,6 +18,9 @@ class Event {
   title!: string;
 
   @Field()
+  identifier!: string;
+
+  @Field()
   subject!: Subject;
 
   @Field()

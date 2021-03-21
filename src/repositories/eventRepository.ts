@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 interface EventParams {
   userId: string;
+  identifier: string;
   subjectId: string;
   repetition: number;
   title: string;
@@ -20,11 +21,9 @@ export default class EventRepository {
     });
   }
 
-  async getEventListById(ids: string[]) {
+  async getEventsByIdentifier(identifier: string) {
     return await this.prisma.event.findMany({
-      where: {
-        id: { in: ids },
-      },
+      where: { identifier },
       include: {
         subject: true,
       },
