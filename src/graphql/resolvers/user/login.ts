@@ -5,7 +5,7 @@ import AuthService from '../../../services/authService';
 import UserRepository from '../../../repositories/userRepository';
 
 @Resolver()
-class LoginResolver {
+export default class LoginResolver {
   @Mutation(() => LoginResponse, { description: 'Sign-in by email and password' })
   async login(@Arg('email') email: string, @Arg('password') password: string) {
     const userRepository = Container.get(UserRepository);
@@ -25,5 +25,3 @@ class LoginResolver {
     };
   }
 }
-
-export default LoginResolver;

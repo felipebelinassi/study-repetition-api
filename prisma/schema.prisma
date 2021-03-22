@@ -4,15 +4,40 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["createMany"]
 }
 
 model User {
-  id            String @id @default(uuid()) @map("id")
+  id            String @id @default(uuid())
   username      String @unique
   email         String @unique
   password      String
-  createdAt     DateTime @default (now()) @map("created_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  events        Event[]
 
   @@map("user")
+}
+
+model Subject {
+  id            String @id @default(uuid())
+  title         String
+  events        Event[]
+
+  @@map("subject")
+}
+
+model Event {
+  id            String @id @default(uuid())
+  identifier    String
+  subject       Subject @relation(fields: [subjectId], references: [id])
+  subjectId     String @map("subject_id")
+  repetition    Int
+  title         String
+  date          DateTime
+  user          User @relation(fields: [userId], references: [id])
+  userId        String @map("user_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("event")
 }
