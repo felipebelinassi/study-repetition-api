@@ -13,6 +13,12 @@ const eventRepositoryMock = jest.fn().mockImplementation(() => ({
 
 Container.set(EventRepository, eventRepositoryMock());
 
+const mockAuthContext = {
+  id: faker.random.uuid(),
+  email: faker.internet.email(),
+  username: faker.internet.userName(),
+};
+
 describe('Create event mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
     const fakeEvent = {
@@ -27,7 +33,7 @@ describe('Create event mutation unit tests', () => {
     getRepetitionsSpy.mockResolvedValue([]);
 
     const resolver = new CreateEventResolver();
-    const response = await resolver.createEvent(fakeEvent);
+    const response = await resolver.createEvent(fakeEvent, { auth: mockAuthContext });
     expect(createRepetitionsSpy).toHaveBeenCalledWith(expect.any(Array));
     expect(createRepetitionsSpy.mock.calls[0][0]).toHaveLength(expectedCount);
     expect(response).toEqual({

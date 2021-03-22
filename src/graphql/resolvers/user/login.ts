@@ -17,7 +17,8 @@ export default class LoginResolver {
       throw new Error('User authentication failed');
     }
 
-    const token = authService.generateToken({ ...user });
+    const { id, email: userEmail, username } = user;
+    const token = authService.generateToken({ id, email: userEmail, username });
 
     return {
       user,
