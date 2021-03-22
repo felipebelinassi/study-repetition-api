@@ -9,7 +9,7 @@ export interface AuthContext {
 }
 
 export interface AuthorizedContext {
-  auth: AuthContext;
+  auth?: AuthContext;
   authExpired?: boolean;
 }
 
