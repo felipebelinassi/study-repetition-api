@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { Service } from 'typedi';
 import config from '../config';
+import { AuthContext } from '../context';
 
 @Service()
 export default class AuthService {
@@ -15,5 +16,9 @@ export default class AuthService {
 
   generateToken(payload: Record<string, unknown>) {
     return jwt.sign(payload, config.auth.secret, { expiresIn: config.auth.expiresIn });
+  }
+
+  decodeToken(token: string) {
+    return jwt.verify(token, config.auth.secret) as AuthContext;
   }
 }
