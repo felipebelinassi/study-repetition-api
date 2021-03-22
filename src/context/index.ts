@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Service, Inject } from 'typedi';
+import Container, { Service } from 'typedi';
 import AuthService from '../services/authService';
 
 export interface AuthContext {
@@ -15,14 +15,13 @@ export interface AuthorizedContext {
 
 @Service()
 export default class Context {
-  @Inject()
-  private authService!: AuthService;
-
   createContext() {
+    const authService = Container.get(AuthService);
+
     return ({ req }: { req: Request }) => {
       const { authorization } = req.headers;
       try {
-        const decodedToken = this.authService.decodeToken(authorization as string);
+        const decodedToken = authService.decodeToken(authorization as string);
         return {
           auth: decodedToken,
         };
