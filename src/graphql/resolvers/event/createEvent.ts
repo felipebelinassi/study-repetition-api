@@ -1,28 +1,29 @@
 import { Container } from 'typedi';
 import slugify from 'slugify';
-import { Resolver, Mutation, Arg } from 'type-graphql';
+import { Resolver, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
 import { startOfDay, addDays } from 'date-fns';
+import { AuthorizedContext } from '../../../context';
 import { CreateEventsResponse } from '../../types/Event';
 import EventCreateInput from '../../input/EventCreateInput';
 import EventRepository from '../../../repositories/eventRepository';
 
 @Resolver()
 export default class CreateEventResolver {
+  @Authorized()
   @Mutation(() => CreateEventsResponse, { description: 'Create a new repetition event' })
-  async createEvent(@Arg('input') input: EventCreateInput) {
+  async createEvent(@Arg('input') input: EventCreateInput, @Ctx() ctx: AuthorizedContext) {
     const eventRepository = Container.get(EventRepository);
 
     const { title, subjectId, startDate, frequency } = input;
     const eventSlug = slugify(title, { lower: true });
     const eventIdentifier = `${eventSlug}-${new Date().getTime()}`;
 
-    // TODO: remove hardcoded user and use it from context
     const newRepetitions = frequency.map((freq, index) => ({
       title,
       subjectId,
       repetition: index + 1,
       identifier: eventIdentifier,
-      userId: '11f6decd-b658-441b-87da-ba74ac49fe1c',
+      userId: ctx.auth.id,
       date: addDays(startOfDay(startDate), freq),
     }));
 
