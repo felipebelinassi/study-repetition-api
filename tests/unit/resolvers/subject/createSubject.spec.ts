@@ -17,8 +17,8 @@ const mockAuthContext = {
   username: faker.internet.userName(),
 };
 
-describe('Create event mutation unit tests', () => {
-  it('should create quantity of repetitions as defined by the payload', async () => {
+describe('Create subject mutation unit tests', () => {
+  it('should create a new subject', async () => {
     const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeSubject = 'Test subject';
 
@@ -33,5 +33,16 @@ describe('Create event mutation unit tests', () => {
     const response = await resolver.createSubject(fakeSubject, fakeContext);
     expect(createSubjectSpy).toHaveBeenCalledWith(fakeSubject);
     expect(response).toEqual(expectedResponse);
+  });
+
+  it('should throw an error if subject was already created by the user', async () => {
+    const fakeContext = { user: mockAuthContext, authExpired: false };
+    const fakeSubject = 'Test subject';
+
+    createSubjectSpy.mockRejectedValue({ code: 'P2002' });
+
+    const resolver = new CreateSubjectResolver();
+    const response = await resolver.createSubject(fakeSubject, fakeContext);
+    await expect(() => response).rejects.toThrow('SUBJECT_ALREADY_EXISTS');
   });
 });
