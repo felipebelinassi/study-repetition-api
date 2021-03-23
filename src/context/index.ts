@@ -2,16 +2,18 @@ import { Request } from 'express';
 import { Service, Inject } from 'typedi';
 import AuthService from '../services/authService';
 
-export interface AuthContext {
+export interface AuthUser {
   id: string;
   username: string;
   email: string;
 }
 
-export interface AuthorizedContext {
-  auth?: AuthContext;
+interface BaseContext {
+  user?: AuthUser;
   authExpired?: boolean;
 }
+
+export type AuthorizedContext = Required<BaseContext>;
 
 @Service()
 export default class Context {
@@ -20,12 +22,11 @@ export default class Context {
 
   createContext() {
     return ({ req }: { req: Request }) => {
-      console.log(this.authService);
       const { authorization } = req.headers;
       try {
         const decodedToken = this.authService.decodeToken(authorization as string);
         return {
-          auth: decodedToken,
+          user: decodedToken,
         };
       } catch (err) {
         return {
