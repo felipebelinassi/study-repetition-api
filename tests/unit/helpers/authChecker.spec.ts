@@ -26,7 +26,7 @@ describe('Auth checker unit tests', () => {
   it('should return true if token was decoded with success', () => {
     const fakeContext = {
       context: {
-        auth: {
+        user: {
           id: 'user-id',
           email: 'user@email.com',
           username: 'user',
