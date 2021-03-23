@@ -14,6 +14,7 @@ model User {
   email         String @unique
   password      String
   createdAt     DateTime @default(now()) @map("created_at")
+  subjects      Subject[]
   events        Event[]
 
   @@map("user")
@@ -21,9 +22,12 @@ model User {
 
 model Subject {
   id            String @id @default(uuid())
+  user          User @relation(fields: [userId], references: [id])
+  userId        String @map("user_id")
   title         String
   events        Event[]
 
+  @@unique([userId, title], name: "Subject_userId_title_un_key")
   @@map("subject")
 }
 
