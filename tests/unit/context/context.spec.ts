@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { Container } from 'typedi';
 import AuthService from '../../../src/services/authService';
 import Context from '../../../src/context';
 
@@ -12,7 +13,8 @@ describe('GQL context unit tests', () => {
       },
     } as unknown) as Request;
 
-    const decodedToken = new Context().createContext()({ req: reqFake });
+    const context = Container.get(Context);
+    const decodedToken = context.createContext()({ req: reqFake });
     expect(decodedToken).toHaveProperty('auth', expect.objectContaining(mockData));
   });
 
@@ -23,7 +25,8 @@ describe('GQL context unit tests', () => {
       },
     } as unknown) as Request;
 
-    const decodedToken = new Context().createContext()({ req: reqFake });
+    const context = Container.get(Context);
+    const decodedToken = context.createContext()({ req: reqFake });
     expect(decodedToken).not.toHaveProperty('auth');
     expect(decodedToken).toEqual({
       authExpired: false,
