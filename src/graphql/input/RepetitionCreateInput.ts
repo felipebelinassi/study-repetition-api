@@ -1,6 +1,7 @@
 import { Field, InputType } from 'type-graphql';
+
 @InputType('EventCreateInput')
-export default class EventCreateInput {
+export default class RepetitionCreateInput {
   @Field(() => String)
   title!: string;
 

@@ -1,17 +1,17 @@
 import { Container } from 'typedi';
 import faker from 'faker';
-import CreateEventResolver from '../../../../src/graphql/resolvers/event/createEvent';
-import EventRepository from '../../../../src/repositories/eventRepository';
+import CreateRepetitionsResolver from '../../../../src/graphql/resolvers/event/createRepetitions';
+import RepetitionRepository from '../../../../src/repositories/repetitionRepository';
 
 const createRepetitionsSpy = jest.fn();
 const getRepetitionsSpy = jest.fn();
 
-const eventRepositoryMock = jest.fn().mockImplementation(() => ({
+const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
   createRepetitions: createRepetitionsSpy,
   getRepetitionsByIdentifier: getRepetitionsSpy,
 }));
 
-Container.set(EventRepository, eventRepositoryMock());
+Container.set(RepetitionRepository, repetitionRepositoryMock());
 
 const mockAuthContext = {
   id: faker.random.uuid(),
@@ -22,19 +22,19 @@ const mockAuthContext = {
 describe('Create event mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
     const fakeContext = { user: mockAuthContext, authExpired: false };
-    const fakeEvent = {
+    const fakeRepetition = {
       title: faker.random.words(),
       subjectId: faker.random.uuid(),
       frequency: [0, 1, 7, 14, 28],
       startDate: new Date(),
     };
-    const expectedCount = fakeEvent.frequency.length;
+    const expectedCount = fakeRepetition.frequency.length;
 
     createRepetitionsSpy.mockResolvedValue({ count: expectedCount });
     getRepetitionsSpy.mockResolvedValue([]);
 
-    const resolver = new CreateEventResolver();
-    const response = await resolver.createEvent(fakeEvent, fakeContext);
+    const resolver = new CreateRepetitionsResolver();
+    const response = await resolver.createRepetitions(fakeRepetition, fakeContext);
     expect(createRepetitionsSpy).toHaveBeenCalledWith(expect.any(Array));
     expect(createRepetitionsSpy.mock.calls[0][0]).toHaveLength(expectedCount);
     expect(response).toEqual({

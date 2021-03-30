@@ -11,7 +11,7 @@ interface RepetitionParams {
 }
 
 @Service()
-export default class EventRepository {
+export default class RepetitionRepository {
   @Inject('prisma')
   private prisma!: PrismaClient;
 

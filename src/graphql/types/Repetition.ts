@@ -26,7 +26,7 @@ class Repetition {
 }
 
 @ObjectType()
-export default class CreateEventsResponse {
+export default class CreateRepetitionsResponse {
   @Field()
   count!: number;
 
