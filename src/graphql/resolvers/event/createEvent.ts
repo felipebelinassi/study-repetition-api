@@ -3,7 +3,7 @@ import slugify from 'slugify';
 import { Resolver, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
 import { startOfDay, addDays } from 'date-fns';
 import { AuthorizedContext } from '../../../context';
-import { CreateEventsResponse } from '../../types/Event';
+import CreateEventsResponse from '../../types/Event';
 import EventCreateInput from '../../input/EventCreateInput';
 import EventRepository from '../../../repositories/eventRepository';
 
@@ -23,7 +23,7 @@ export default class CreateEventResolver {
       subjectId,
       repetition: index + 1,
       identifier: eventIdentifier,
-      userId: ctx.auth.id,
+      userId: ctx.user.id,
       date: addDays(startOfDay(startDate), freq),
     }));
 

@@ -15,7 +15,7 @@ describe('GQL context unit tests', () => {
 
     const context = Container.get(Context);
     const decodedToken = context.createContext()({ req: reqFake });
-    expect(decodedToken).toHaveProperty('auth', expect.objectContaining(mockData));
+    expect(decodedToken).toHaveProperty('user', expect.objectContaining(mockData));
   });
 
   it('should not return token data when there is a problem on verification', () => {
@@ -27,7 +27,7 @@ describe('GQL context unit tests', () => {
 
     const context = Container.get(Context);
     const decodedToken = context.createContext()({ req: reqFake });
-    expect(decodedToken).not.toHaveProperty('auth');
+    expect(decodedToken).not.toHaveProperty('user');
     expect(decodedToken).toEqual({
       authExpired: false,
     });

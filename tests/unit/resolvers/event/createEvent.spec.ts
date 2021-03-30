@@ -21,6 +21,7 @@ const mockAuthContext = {
 
 describe('Create event mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
+    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeEvent = {
       title: faker.random.words(),
       subjectId: faker.random.uuid(),
@@ -33,7 +34,7 @@ describe('Create event mutation unit tests', () => {
     getRepetitionsSpy.mockResolvedValue([]);
 
     const resolver = new CreateEventResolver();
-    const response = await resolver.createEvent(fakeEvent, { auth: mockAuthContext });
+    const response = await resolver.createEvent(fakeEvent, fakeContext);
     expect(createRepetitionsSpy).toHaveBeenCalledWith(expect.any(Array));
     expect(createRepetitionsSpy.mock.calls[0][0]).toHaveLength(expectedCount);
     expect(response).toEqual({
