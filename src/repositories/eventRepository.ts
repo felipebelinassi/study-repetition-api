@@ -16,13 +16,13 @@ export default class EventRepository {
   private prisma!: PrismaClient;
 
   async createRepetitions(params: RepetitionParams[]) {
-    return await this.prisma.event.createMany({
+    return this.prisma.event.createMany({
       data: params,
     });
   }
 
   async getRepetitionsByIdentifier(identifier: string) {
-    return await this.prisma.event.findMany({
+    return this.prisma.event.findMany({
       where: { identifier },
       include: {
         subject: true,
