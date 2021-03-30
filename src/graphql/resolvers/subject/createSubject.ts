@@ -6,9 +6,9 @@ import SubjectRepository from '../../../repositories/subjectRepository';
 import { ApolloError } from 'apollo-server-express';
 
 @Resolver()
-export default class CreateEventResolver {
+export default class CreateSubjectResolver {
   @Authorized()
-  @Mutation(() => Subject, { description: 'Create a new subject for events' })
+  @Mutation(() => Subject, { description: 'Create a new subject for repetitions' })
   async createSubject(@Arg('title') title: string, @Ctx() ctx: AuthorizedContext) {
     try {
       const subjectRepository = Container.get(SubjectRepository);

@@ -12,7 +12,7 @@ export default class CreateRepetitionsResolver {
   @Authorized()
   @Mutation(() => CreateRepetitionsResponse, { description: 'Create a new repetition event' })
   async createRepetitions(@Arg('input') input: RepetitionCreateInput, @Ctx() ctx: AuthorizedContext) {
-    const eventRepository = Container.get(RepetitionRepository);
+    const repetitionRepository = Container.get(RepetitionRepository);
 
     const { title, subjectId, startDate, frequency } = input;
     const eventSlug = slugify(title, { lower: true });
@@ -27,8 +27,8 @@ export default class CreateRepetitionsResolver {
       date: addDays(startOfDay(startDate), freq),
     }));
 
-    const { count } = await eventRepository.createRepetitions(newRepetitions);
-    const repetitions = await eventRepository.getRepetitionsByIdentifier(eventIdentifier);
+    const { count } = await repetitionRepository.createRepetitions(newRepetitions);
+    const repetitions = await repetitionRepository.getRepetitionsByIdentifier(eventIdentifier);
 
     return { count, repetitions };
   }

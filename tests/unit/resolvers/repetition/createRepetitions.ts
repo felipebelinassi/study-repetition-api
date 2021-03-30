@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 import faker from 'faker';
-import CreateRepetitionsResolver from '../../../../src/graphql/resolvers/event/createRepetitions';
+import CreateRepetitionsResolver from '../../../../src/graphql/resolvers/repetition/createRepetitions';
 import RepetitionRepository from '../../../../src/repositories/repetitionRepository';
 
 const createRepetitionsSpy = jest.fn();
