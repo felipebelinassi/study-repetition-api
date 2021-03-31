@@ -3,7 +3,7 @@ import slugify from 'slugify';
 import { Resolver, Mutation, Arg, Ctx, Authorized } from 'type-graphql';
 import { startOfDay, addDays } from 'date-fns';
 import { AuthorizedContext } from '../../../context';
-import CreateRepetitionsResponse from '../../types/Repetition';
+import { CreateRepetitionsResponse } from '../../types/Repetition';
 import RepetitionCreateInput from '../../input/RepetitionCreateInput';
 import RepetitionRepository from '../../../repositories/repetitionRepository';
 
@@ -11,7 +11,10 @@ import RepetitionRepository from '../../../repositories/repetitionRepository';
 export default class CreateRepetitionsResolver {
   @Authorized()
   @Mutation(() => CreateRepetitionsResponse, { description: 'Create a new repetition event' })
-  async createRepetitions(@Arg('input') input: RepetitionCreateInput, @Ctx() ctx: AuthorizedContext) {
+  async createRepetitions(
+    @Arg('input') input: RepetitionCreateInput,
+    @Ctx() ctx: AuthorizedContext,
+  ) {
     const repetitionRepository = Container.get(RepetitionRepository);
 
     const { title, subjectId, startDate, frequency } = input;

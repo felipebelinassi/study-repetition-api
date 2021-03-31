@@ -29,4 +29,22 @@ export default class RepetitionRepository {
       },
     });
   }
+
+  async getRepetitionsByTimeRange(userId: string, start: Date, end: Date) {
+    return this.prisma.repetition.findMany({
+      where: {
+        userId,
+        date: {
+          gte: start,
+          lt: end,
+        },
+      },
+      include: {
+        subject: true,
+      },
+      orderBy: {
+        repetition: 'desc',
+      },
+    });
+  }
 }
