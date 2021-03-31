@@ -19,7 +19,7 @@ const mockAuthContext = {
   username: faker.internet.userName(),
 };
 
-describe('Create event mutation unit tests', () => {
+describe('Create repetitions mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
     const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeRepetition = {
