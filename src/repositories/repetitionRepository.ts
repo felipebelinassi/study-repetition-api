@@ -11,21 +11,39 @@ interface RepetitionParams {
 }
 
 @Service()
-export default class EventRepository {
+export default class RepetitionRepository {
   @Inject('prisma')
   private prisma!: PrismaClient;
 
   async createRepetitions(params: RepetitionParams[]) {
-    return this.prisma.event.createMany({
+    return this.prisma.repetition.createMany({
       data: params,
     });
   }
 
   async getRepetitionsByIdentifier(identifier: string) {
-    return this.prisma.event.findMany({
+    return this.prisma.repetition.findMany({
       where: { identifier },
       include: {
         subject: true,
+      },
+    });
+  }
+
+  async getRepetitionsByTimeRange(userId: string, start: Date, end: Date) {
+    return this.prisma.repetition.findMany({
+      where: {
+        userId,
+        date: {
+          gte: start,
+          lt: end,
+        },
+      },
+      include: {
+        subject: true,
+      },
+      orderBy: {
+        repetition: 'desc',
       },
     });
   }

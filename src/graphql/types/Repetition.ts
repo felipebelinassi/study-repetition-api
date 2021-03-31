@@ -2,7 +2,7 @@ import { Field, ObjectType } from 'type-graphql';
 import Subject from './Subject';
 
 @ObjectType()
-class Repetition {
+export class Repetition {
   @Field()
   id!: string;
 
@@ -26,7 +26,7 @@ class Repetition {
 }
 
 @ObjectType()
-export default class CreateEventsResponse {
+export class CreateRepetitionsResponse {
   @Field()
   count!: number;
 
