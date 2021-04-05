@@ -30,8 +30,8 @@ export default class CreateRepetitionsResolver {
       date: addDays(startOfDay(startDate), freq),
     }));
 
-    const { count } = await repetitionRepository.createRepetitions(newRepetitions);
-    const repetitions = await repetitionRepository.getRepetitionsByIdentifier(eventIdentifier);
+    const { count } = await repetitionRepository.create(newRepetitions);
+    const repetitions = await repetitionRepository.getByIdentifier(eventIdentifier);
 
     return { count, repetitions };
   }
