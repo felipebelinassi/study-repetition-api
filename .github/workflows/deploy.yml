@@ -15,7 +15,7 @@ jobs:
       PORT: ${{ secrets.PORT }}
       LOGGER_ENABLED: ${{ secrets.LOGGER_ENABLED }}
       LOGGER_LEVEL: ${{ secrets.LOGGER_LEVEL }}
-      DATABASE_URL: ${{ secrets.DABATASE_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       TOKEN_EXPIRES_IN: ${{ secrets.TOKEN_EXPIRES_IN }}
 
