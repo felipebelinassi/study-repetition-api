@@ -36,7 +36,7 @@ describe('Create repetitions mutation unit tests', () => {
     getRepetitionsSpy.mockResolvedValue([]);
 
     const resolver = new CreateRepetitionsResolver();
-    const response = await resolver.createRepetitions(fakeRepetition, fakeAuthContext);
+    const response = await resolver.createRepetitions(fakeAuthContext, fakeRepetition);
     expect(createRepetitionsSpy).toHaveBeenCalledWith(expect.any(Array));
     expect(createRepetitionsSpy.mock.calls[0][0]).toHaveLength(expectedCount);
     expect(response).toEqual({

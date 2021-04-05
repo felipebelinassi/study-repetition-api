@@ -1,4 +1,5 @@
 import { Container } from 'typedi';
+import loggerMock from '../../../doubles/mocks/logger';
 import LoginResolver from '../../../../src/graphql/resolvers/user/login';
 import UserRepository from '../../../../src/repositories/userRepository';
 import AuthService from '../../../../src/services/authService';
@@ -11,6 +12,8 @@ const userRepositoryMock = jest.fn().mockImplementation(() => ({
 
 Container.set(UserRepository, userRepositoryMock());
 
+const fakeContext = { logger: loggerMock };
+
 describe('Login mutation unit tests', () => {
   it('should throw an error if user is not found in database', async () => {
     const fakeEmail = 'johndoe@gmail.com';
@@ -19,7 +22,7 @@ describe('Login mutation unit tests', () => {
     getUserSpy.mockResolvedValue(null);
 
     const resolver = new LoginResolver();
-    const response = resolver.login(fakeEmail, fakePassword);
+    const response = resolver.login(fakeContext, fakeEmail, fakePassword);
     await expect(() => response).rejects.toThrow(Error);
   });
 
@@ -34,7 +37,7 @@ describe('Login mutation unit tests', () => {
     });
 
     const resolver = new LoginResolver();
-    const response = resolver.login(fakeEmail, fakePassword);
+    const response = resolver.login(fakeContext, fakeEmail, fakePassword);
     await expect(() => response).rejects.toThrow(Error);
   });
 
@@ -56,7 +59,7 @@ describe('Login mutation unit tests', () => {
     });
 
     const resolver = new LoginResolver();
-    const response = await resolver.login(fakeEmail, fakePassword);
+    const response = await resolver.login(fakeContext, fakeEmail, fakePassword);
     expect(response).toEqual({
       token: expect.any(String),
       user: expect.objectContaining(fakeUser),

@@ -32,7 +32,7 @@ describe('Create subject mutation unit tests', () => {
     createSubjectSpy.mockResolvedValue(expectedResponse);
 
     const resolver = new CreateSubjectResolver();
-    const response = await resolver.createSubject(fakeSubject, fakeAuthContext);
+    const response = await resolver.createSubject(fakeAuthContext, fakeSubject);
     expect(createSubjectSpy).toHaveBeenCalledWith(mockAuthContext.id, fakeSubject);
     expect(response).toEqual(expectedResponse);
   });
@@ -43,7 +43,7 @@ describe('Create subject mutation unit tests', () => {
     createSubjectSpy.mockRejectedValue({ code: 'P2002' });
 
     const resolver = new CreateSubjectResolver();
-    const response = resolver.createSubject(fakeSubject, fakeAuthContext);
+    const response = resolver.createSubject(fakeAuthContext, fakeSubject);
     await expect(() => response).rejects.toThrow('SUBJECT_ALREADY_EXISTS');
   });
 });

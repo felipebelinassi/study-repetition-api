@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { Container } from 'typedi';
+import loggerMock from '../../../doubles/mocks/logger';
 import SignUpResolver from '../../../../src/graphql/resolvers/user/signUp';
 import UserRepository from '../../../../src/repositories/userRepository';
 
@@ -16,6 +17,8 @@ const userRepositoryMock = jest.fn().mockImplementation(() => ({
 
 Container.set(UserRepository, userRepositoryMock());
 
+const fakeContext = { logger: loggerMock };
+
 describe('Sign up mutation unit tests', () => {
   it('should return the created user', async () => {
     const fakeUserParams = {
@@ -25,7 +28,7 @@ describe('Sign up mutation unit tests', () => {
     };
 
     const resolver = new SignUpResolver();
-    const response = await resolver.signUp(fakeUserParams);
+    const response = await resolver.signUp(fakeContext, fakeUserParams);
 
     expect(response).toEqual(
       expect.objectContaining({

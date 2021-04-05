@@ -9,7 +9,7 @@ import { ApolloError } from 'apollo-server-express';
 export default class CreateSubjectResolver {
   @Authorized()
   @Mutation(() => Subject, { description: 'Create a new subject for repetitions' })
-  async createSubject(@Arg('title') title: string, @Ctx() ctx: AuthorizedContext) {
+  async createSubject(@Ctx() ctx: AuthorizedContext, @Arg('title') title: string) {
     ctx.logger.info('Creating new subject');
     try {
       const subjectRepository = Container.get(SubjectRepository);
