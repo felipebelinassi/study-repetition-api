@@ -1,5 +1,6 @@
 import { Container } from 'typedi';
 import faker from 'faker';
+import loggerMock from '../../../doubles/mocks/logger';
 import CreateSubjectResolver from '../../../../src/graphql/resolvers/subject/createSubject';
 import SubjectRepository from '../../../../src/repositories/subjectRepository';
 
@@ -17,9 +18,10 @@ const mockAuthContext = {
   username: faker.internet.userName(),
 };
 
+const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: loggerMock };
+
 describe('Create subject mutation unit tests', () => {
   it('should create a new subject', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeSubject = 'Test subject';
 
     const expectedResponse = {
@@ -30,19 +32,18 @@ describe('Create subject mutation unit tests', () => {
     createSubjectSpy.mockResolvedValue(expectedResponse);
 
     const resolver = new CreateSubjectResolver();
-    const response = await resolver.createSubject(fakeSubject, fakeContext);
+    const response = await resolver.createSubject(fakeSubject, fakeAuthContext);
     expect(createSubjectSpy).toHaveBeenCalledWith(mockAuthContext.id, fakeSubject);
     expect(response).toEqual(expectedResponse);
   });
 
   it('should throw SUBJECT_ALREADY_EXISTS if subject was already created by the user', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeSubject = 'Test subject';
 
     createSubjectSpy.mockRejectedValue({ code: 'P2002' });
 
     const resolver = new CreateSubjectResolver();
-    const response = resolver.createSubject(fakeSubject, fakeContext);
+    const response = resolver.createSubject(fakeSubject, fakeAuthContext);
     await expect(() => response).rejects.toThrow('SUBJECT_ALREADY_EXISTS');
   });
 });

@@ -1,6 +1,10 @@
 import * as server from '../../src/app';
 
-jest.mock('../../src/graphql', () => 
+jest.mock('../../src/logger', () => () => ({
+  info: jest.fn(),
+  child: jest.fn(),
+}));
+jest.mock('../../src/graphql', () =>
   jest.fn(() => ({
     applyMiddleware: () => jest.fn(),
   })),

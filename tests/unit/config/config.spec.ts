@@ -3,7 +3,11 @@ import getConfig from '../../../src/config/config';
 
 const schemaMock = joi
   .object({
-    NODE_ENV: joi.string().lowercase().valid('local', 'test', 'development', 'production').required(),
+    NODE_ENV: joi
+      .string()
+      .lowercase()
+      .valid('local', 'test', 'development', 'production')
+      .required(),
     PORT: joi.string().required(),
     DATABASE_URL: joi.string().required(),
   })

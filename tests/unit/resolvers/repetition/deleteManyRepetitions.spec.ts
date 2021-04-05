@@ -1,5 +1,6 @@
 import { Container } from 'typedi';
 import faker from 'faker';
+import loggerMock from '../../../doubles/mocks/logger';
 import DeleteManyRepetitionsResolver from '../../../../src/graphql/resolvers/repetition/deleteManyRepetitions';
 import RepetitionRepository from '../../../../src/repositories/repetitionRepository';
 
@@ -21,9 +22,10 @@ const mockAuthContext = {
   username: faker.internet.userName(),
 };
 
+const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: loggerMock };
+
 describe('Delete many repetitions unit tests', () => {
   it('should successfully delete all repetitions by identifier', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeUserRepetition = {
       id: faker.random.uuid(),
       identifier: 'test-repetition-delete-1617228260035',
@@ -41,7 +43,7 @@ describe('Delete many repetitions unit tests', () => {
     const resolver = new DeleteManyRepetitionsResolver();
     const deleteAll = true;
     const response = await resolver.deleteManyRepetitionsFromOne(
-      fakeContext,
+      fakeAuthContext,
       fakeUserRepetition.id,
       deleteAll,
     );
@@ -51,7 +53,6 @@ describe('Delete many repetitions unit tests', () => {
   });
 
   it('should successfully delete next repetitions', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeUserRepetition = {
       id: faker.random.uuid(),
       identifier: 'test-repetition-delete-1617228260035',
@@ -68,7 +69,7 @@ describe('Delete many repetitions unit tests', () => {
 
     const resolver = new DeleteManyRepetitionsResolver();
     const response = await resolver.deleteManyRepetitionsFromOne(
-      fakeContext,
+      fakeAuthContext,
       fakeUserRepetition.id,
     );
 
@@ -80,18 +81,16 @@ describe('Delete many repetitions unit tests', () => {
   });
 
   it('should not allow to delete not existent repetition', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeRepetitionId = faker.random.uuid();
 
     getRepetitionSpy.mockResolvedValue(null);
 
     const resolver = new DeleteManyRepetitionsResolver();
-    const response = resolver.deleteManyRepetitionsFromOne(fakeContext, fakeRepetitionId);
+    const response = resolver.deleteManyRepetitionsFromOne(fakeAuthContext, fakeRepetitionId);
     await expect(() => response).rejects.toThrow('NOT_ALLOWED');
   });
 
   it('should not allow to delete another user repetition', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeUserRepetition = {
       id: faker.random.uuid(),
       identifier: 'test-repetition-delete-1617228260035',
@@ -106,7 +105,7 @@ describe('Delete many repetitions unit tests', () => {
     getRepetitionSpy.mockResolvedValue(fakeUserRepetition);
 
     const resolver = new DeleteManyRepetitionsResolver();
-    const response = resolver.deleteManyRepetitionsFromOne(fakeContext, fakeUserRepetition.id);
+    const response = resolver.deleteManyRepetitionsFromOne(fakeAuthContext, fakeUserRepetition.id);
     await expect(() => response).rejects.toThrow('NOT_ALLOWED');
   });
 });

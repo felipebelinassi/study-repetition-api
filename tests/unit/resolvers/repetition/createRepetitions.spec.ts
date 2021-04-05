@@ -1,5 +1,6 @@
 import { Container } from 'typedi';
 import faker from 'faker';
+import loggerMock from '../../../doubles/mocks/logger';
 import CreateRepetitionsResolver from '../../../../src/graphql/resolvers/repetition/createRepetitions';
 import RepetitionRepository from '../../../../src/repositories/repetitionRepository';
 
@@ -19,9 +20,10 @@ const mockAuthContext = {
   username: faker.internet.userName(),
 };
 
+const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: loggerMock };
+
 describe('Create repetitions mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeRepetition = {
       title: faker.random.words(),
       subjectId: faker.random.uuid(),
@@ -34,7 +36,7 @@ describe('Create repetitions mutation unit tests', () => {
     getRepetitionsSpy.mockResolvedValue([]);
 
     const resolver = new CreateRepetitionsResolver();
-    const response = await resolver.createRepetitions(fakeRepetition, fakeContext);
+    const response = await resolver.createRepetitions(fakeRepetition, fakeAuthContext);
     expect(createRepetitionsSpy).toHaveBeenCalledWith(expect.any(Array));
     expect(createRepetitionsSpy.mock.calls[0][0]).toHaveLength(expectedCount);
     expect(response).toEqual({
