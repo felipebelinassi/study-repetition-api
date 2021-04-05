@@ -6,7 +6,7 @@ export default class SubjectRepository {
   @Inject('prisma')
   private prisma!: PrismaClient;
 
-  async createSubject(userId: string, title: string) {
+  async create(userId: string, title: string) {
     return this.prisma.subject.create({
       data: {
         userId,

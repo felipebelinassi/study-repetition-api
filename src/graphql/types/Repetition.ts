@@ -33,3 +33,9 @@ export class CreateRepetitionsResponse {
   @Field(() => [Repetition])
   repetitions!: Repetition[];
 }
+
+@ObjectType()
+export class DeleteRepetitionResponse {
+  @Field()
+  success!: boolean;
+}

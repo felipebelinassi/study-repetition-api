@@ -6,7 +6,7 @@ import SubjectRepository from '../../../../src/repositories/subjectRepository';
 const createSubjectSpy = jest.fn();
 
 const subjectRepositoryMock = jest.fn().mockImplementation(() => ({
-  createSubject: createSubjectSpy,
+  create: createSubjectSpy,
 }));
 
 Container.set(SubjectRepository, subjectRepositoryMock());

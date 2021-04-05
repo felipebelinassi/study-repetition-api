@@ -15,13 +15,22 @@ export default class RepetitionRepository {
   @Inject('prisma')
   private prisma!: PrismaClient;
 
-  async createRepetitions(params: RepetitionParams[]) {
+  async create(params: RepetitionParams[]) {
     return this.prisma.repetition.createMany({
       data: params,
     });
   }
 
-  async getRepetitionsByIdentifier(identifier: string) {
+  async getByUserAndId(userId: string, repetitionId: string) {
+    return this.prisma.repetition.findFirst({
+      where: {
+        userId,
+        id: repetitionId,
+      },
+    });
+  }
+
+  async getByIdentifier(identifier: string) {
     return this.prisma.repetition.findMany({
       where: { identifier },
       include: {
@@ -30,7 +39,7 @@ export default class RepetitionRepository {
     });
   }
 
-  async getRepetitionsByTimeRange(userId: string, start: Date, end: Date) {
+  async getByTimeRange(userId: string, start: Date, end: Date) {
     return this.prisma.repetition.findMany({
       where: {
         userId,
@@ -44,6 +53,14 @@ export default class RepetitionRepository {
       },
       orderBy: {
         repetition: 'desc',
+      },
+    });
+  }
+
+  async deleteById(id: string) {
+    return this.prisma.repetition.delete({
+      where: {
+        id,
       },
     });
   }

@@ -12,7 +12,7 @@ export default class CreateSubjectResolver {
   async createSubject(@Arg('title') title: string, @Ctx() ctx: AuthorizedContext) {
     try {
       const subjectRepository = Container.get(SubjectRepository);
-      return await subjectRepository.createSubject(ctx.user.id, title);
+      return await subjectRepository.create(ctx.user.id, title);
     } catch (err) {
       // TODO: Create error handler for prisma errors
       if (err.code === 'P2002') {

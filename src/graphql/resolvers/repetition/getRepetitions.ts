@@ -20,7 +20,7 @@ export default class GetRepetitionsResolver {
     const dateStartTime = startOfDay(date);
     const dateEndTime = endOfDay(date);
 
-    const repetitions = await repetitionRepository.getRepetitionsByTimeRange(
+    const repetitions = await repetitionRepository.getByTimeRange(
       userId,
       dateStartTime,
       dateEndTime,
