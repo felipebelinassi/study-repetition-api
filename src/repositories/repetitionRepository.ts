@@ -59,8 +59,21 @@ export default class RepetitionRepository {
 
   async deleteById(id: string) {
     return this.prisma.repetition.delete({
+      where: { id },
+    });
+  }
+
+  async deleteByIdentifier(identifier: string) {
+    return this.prisma.repetition.deleteMany({
+      where: { identifier },
+    });
+  }
+
+  async deleteNextRepetitionsByIdentifier(identifier: string, repetition: number) {
+    return this.prisma.repetition.deleteMany({
       where: {
-        id,
+        identifier,
+        repetition: { gte: repetition },
       },
     });
   }
