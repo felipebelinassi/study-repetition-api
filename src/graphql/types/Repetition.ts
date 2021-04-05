@@ -38,4 +38,7 @@ export class CreateRepetitionsResponse {
 export class DeleteRepetitionResponse {
   @Field()
   success!: boolean;
+
+  @Field()
+  count?: number;
 }
