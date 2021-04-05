@@ -9,6 +9,7 @@ jest.mock('../../src/graphql', () =>
     applyMiddleware: () => jest.fn(),
   })),
 );
+jest.mock('cors', () => jest.fn());
 jest.mock('express', () => {
   const reqMock = {
     app: {
