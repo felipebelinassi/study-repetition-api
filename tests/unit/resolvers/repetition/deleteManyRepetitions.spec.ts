@@ -24,7 +24,7 @@ const mockAuthContext = {
 
 const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: loggerMock };
 
-describe('Delete many repetitions unit tests', () => {
+describe.skip('Delete many repetitions unit tests', () => {
   it('should successfully delete all repetitions by identifier', async () => {
     const fakeUserRepetition = {
       id: faker.random.uuid(),
