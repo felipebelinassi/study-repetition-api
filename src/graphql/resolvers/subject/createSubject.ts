@@ -9,11 +9,13 @@ import { ApolloError } from 'apollo-server-express';
 export default class CreateSubjectResolver {
   @Authorized()
   @Mutation(() => Subject, { description: 'Create a new subject for repetitions' })
-  async createSubject(@Arg('title') title: string, @Ctx() ctx: AuthorizedContext) {
+  async createSubject(@Ctx() ctx: AuthorizedContext, @Arg('title') title: string) {
+    ctx.logger.info('Creating new subject');
     try {
       const subjectRepository = Container.get(SubjectRepository);
       return await subjectRepository.create(ctx.user.id, title);
     } catch (err) {
+      ctx.logger.error('Error creating a new subject', err);
       // TODO: Create error handler for prisma errors
       if (err.code === 'P2002') {
         throw new ApolloError('SUBJECT_ALREADY_EXISTS');

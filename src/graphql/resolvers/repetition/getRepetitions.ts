@@ -13,6 +13,8 @@ export default class GetRepetitionsResolver {
     @Ctx() ctx: AuthorizedContext,
     @Arg('date', { nullable: true }) givenDate?: Date,
   ) {
+    ctx.logger.info('Get repetitions by a given date');
+
     const repetitionRepository = Container.get(RepetitionRepository);
 
     const userId = ctx.user.id;

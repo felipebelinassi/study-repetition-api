@@ -1,4 +1,5 @@
 import { ResolverData } from 'type-graphql';
+import loggerMock from '../../doubles/mocks/logger';
 import { AuthorizedContext } from '../../../src/context';
 import authChecker from '../../../src/helpers/authChecker';
 
@@ -7,6 +8,7 @@ describe('Auth checker unit tests', () => {
     const fakeContext = {
       context: {
         authExpired: false,
+        logger: loggerMock,
       },
     } as ResolverData<AuthorizedContext>;
 
@@ -17,6 +19,7 @@ describe('Auth checker unit tests', () => {
     const fakeContext = {
       context: {
         authExpired: true,
+        logger: loggerMock,
       },
     } as ResolverData<AuthorizedContext>;
 
@@ -31,6 +34,7 @@ describe('Auth checker unit tests', () => {
           email: 'user@email.com',
           username: 'user',
         },
+        logger: loggerMock,
       },
     } as ResolverData<AuthorizedContext>;
 

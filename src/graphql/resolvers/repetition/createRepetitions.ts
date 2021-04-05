@@ -12,9 +12,11 @@ export default class CreateRepetitionsResolver {
   @Authorized()
   @Mutation(() => CreateRepetitionsResponse, { description: 'Create a new repetition event' })
   async createRepetitions(
-    @Arg('input') input: RepetitionCreateInput,
     @Ctx() ctx: AuthorizedContext,
+    @Arg('input') input: RepetitionCreateInput,
   ) {
+    ctx.logger.info('Creating new repetitions');
+
     const repetitionRepository = Container.get(RepetitionRepository);
 
     const { title, subjectId, startDate, frequency } = input;

@@ -22,6 +22,7 @@ const apolloServer = async () => {
     validationRules: [depthLimit(7)],
     context: context.createContext(),
     playground: true,
+    introspection: true,
   });
 };
 

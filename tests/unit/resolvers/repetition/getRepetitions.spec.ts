@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 import faker from 'faker';
 import { startOfDay, endOfDay } from 'date-fns';
+import loggerMock from '../../../doubles/mocks/logger';
 import GetRepetitionsResolver from '../../../../src/graphql/resolvers/repetition/getRepetitions';
 import RepetitionRepository from '../../../../src/repositories/repetitionRepository';
 
@@ -13,19 +14,19 @@ const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
 Container.set(RepetitionRepository, repetitionRepositoryMock());
 
 const mockAuthContext = {
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   email: faker.internet.email(),
   username: faker.internet.userName(),
 };
 
+const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: loggerMock };
+
 describe('Get repetitions query unit tests', () => {
   it('should get repetitions for current date', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
-
     getRepetitionsSpy.mockResolvedValue([]);
 
     const resolver = new GetRepetitionsResolver();
-    const response = await resolver.getRepetitions(fakeContext);
+    const response = await resolver.getRepetitions(fakeAuthContext);
 
     expect(getRepetitionsSpy).toHaveBeenCalledWith(
       mockAuthContext.id,
@@ -36,7 +37,6 @@ describe('Get repetitions query unit tests', () => {
   });
 
   it('should get repetitions for a given date', async () => {
-    const fakeContext = { user: mockAuthContext, authExpired: false };
     const fakeRepetitions = [
       {
         id: '0f8a2f81-44b7-47c8-8c91-0c97a200cc77',
@@ -65,7 +65,7 @@ describe('Get repetitions query unit tests', () => {
     getRepetitionsSpy.mockResolvedValue(fakeRepetitions);
 
     const resolver = new GetRepetitionsResolver();
-    const response = await resolver.getRepetitions(fakeContext, testDate);
+    const response = await resolver.getRepetitions(fakeAuthContext, testDate);
 
     expect(getRepetitionsSpy).toHaveBeenCalledWith(
       mockAuthContext.id,

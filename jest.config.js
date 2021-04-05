@@ -11,5 +11,4 @@ module.exports = {
   testMatch: ['**/tests/unit/**/(*.)+(spec|test).+(ts|tsx)'],
   clearMocks: true,
   setupFiles: ['reflect-metadata', 'dotenv/config'],
-
 };
