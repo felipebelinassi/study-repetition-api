@@ -15,6 +15,8 @@ export default class CreateRepetitionsResolver {
     @Arg('input') input: RepetitionCreateInput,
     @Ctx() ctx: AuthorizedContext,
   ) {
+    ctx.logger.info('Creating new repetitions');
+
     const repetitionRepository = Container.get(RepetitionRepository);
 
     const { title, subjectId, startDate, frequency } = input;

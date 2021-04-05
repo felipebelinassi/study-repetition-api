@@ -20,10 +20,13 @@ export default class DeleteRepetitionResolver {
     })
     deleteAll?: boolean,
   ) {
+    ctx.logger.info('Deleting many repetitions');
+
     const repetitionRepository = Container.get(RepetitionRepository);
     const repetitionData = await repetitionRepository.getByUserAndId(ctx.user.id, repetitionId);
 
     if (!repetitionData || repetitionData.userId !== ctx.user.id) {
+      ctx.logger.error('User is not allowed to delete this repetition');
       throw new ApolloError('NOT_ALLOWED');
     }
 

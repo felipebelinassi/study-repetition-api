@@ -17,32 +17,39 @@ interface BaseContext {
 }
 
 export type AuthorizedContext = Required<BaseContext>;
+export type NormalContext = Required<Pick<BaseContext, 'logger'>>;
 
 @Service()
 export default class Context {
   @Inject()
   private authService!: AuthService;
 
+  createAuthorizedContext(logger: Logger, authorization: string) {
+    try {
+      const decodedToken = this.authService.decodeToken(authorization as string);
+      return {
+        logger,
+        user: decodedToken,
+      };
+    } catch (err) {
+      return {
+        logger,
+        authExpired: err.name === 'TokenExpiredError',
+      };
+    }
+  }
+
   createContext() {
     return ({ req }: { req: Request }) => {
       const { authorization } = req.headers;
       const logger = req.app.locals.logger as Logger;
-      const childLogger = logger.child({
-        correlationId: uuidV4(),
-      });
+      const childLogger = logger.child({ correlationId: uuidV4() });
 
-      try {
-        const decodedToken = this.authService.decodeToken(authorization as string);
-        return {
-          user: decodedToken,
-          logger: childLogger,
-        };
-      } catch (err) {
-        logger.error('Authentication token expired');
-        return {
-          authExpired: err.name === 'TokenExpiredError',
-        };
+      if (!authorization) {
+        return { logger: childLogger };
       }
+
+      return this.createAuthorizedContext(childLogger, authorization);
     };
   }
 }
