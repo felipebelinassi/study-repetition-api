@@ -13,7 +13,7 @@ const subjectRepositoryMock = jest.fn().mockImplementation(() => ({
 Container.set(SubjectRepository, subjectRepositoryMock());
 
 const mockAuthContext = {
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   email: faker.internet.email(),
   username: faker.internet.userName(),
 };
@@ -25,7 +25,7 @@ describe('Create subject mutation unit tests', () => {
     const fakeSubject = 'Test subject';
 
     const expectedResponse = {
-      id: faker.random.uuid(),
+      id: faker.datatype.uuid(),
       title: fakeSubject,
     };
 

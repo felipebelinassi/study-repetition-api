@@ -14,7 +14,7 @@ const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
 Container.set(RepetitionRepository, repetitionRepositoryMock());
 
 const mockAuthContext = {
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   email: faker.internet.email(),
   username: faker.internet.userName(),
 };

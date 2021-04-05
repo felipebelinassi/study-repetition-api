@@ -15,7 +15,7 @@ const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
 Container.set(RepetitionRepository, repetitionRepositoryMock());
 
 const mockAuthContext = {
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   email: faker.internet.email(),
   username: faker.internet.userName(),
 };
@@ -26,7 +26,7 @@ describe('Create repetitions mutation unit tests', () => {
   it('should create quantity of repetitions as defined by the payload', async () => {
     const fakeRepetition = {
       title: faker.random.words(),
-      subjectId: faker.random.uuid(),
+      subjectId: faker.datatype.uuid(),
       frequency: [0, 1, 7, 14, 28],
       startDate: new Date(),
     };

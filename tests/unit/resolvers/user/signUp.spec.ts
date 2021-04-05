@@ -6,7 +6,7 @@ import UserRepository from '../../../../src/repositories/userRepository';
 
 const createUserSpy = jest.fn((args) => ({
   ...args,
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   password: faker.random.word(),
   createdAt: new Date().toString(),
 }));

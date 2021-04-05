@@ -15,7 +15,7 @@ const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
 Container.set(RepetitionRepository, repetitionRepositoryMock());
 
 const mockAuthContext = {
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   email: faker.internet.email(),
   username: faker.internet.userName(),
 };
@@ -25,7 +25,7 @@ const fakeAuthContext = { user: mockAuthContext, authExpired: false, logger: log
 describe('Delete one repetition unit tests', () => {
   it('should successfully delete user repetition by id', async () => {
     const fakeUserRepetition = {
-      id: faker.random.uuid(),
+      id: faker.datatype.uuid(),
       identifier: 'test-repetition-delete-1617228260035',
       subjectId: '832b3bc0-5661-4d40-8277-378bea5260ef',
       repetition: 1,
@@ -45,7 +45,7 @@ describe('Delete one repetition unit tests', () => {
   });
 
   it('should not allow to delete not existent repetition', async () => {
-    const fakeRepetitionId = faker.random.uuid();
+    const fakeRepetitionId = faker.datatype.uuid();
 
     getRepetitionSpy.mockResolvedValue(null);
 
@@ -56,13 +56,13 @@ describe('Delete one repetition unit tests', () => {
 
   it('should not allow to delete another user repetition', async () => {
     const fakeUserRepetition = {
-      id: faker.random.uuid(),
+      id: faker.datatype.uuid(),
       identifier: 'test-repetition-delete-1617228260035',
       subjectId: '832b3bc0-5661-4d40-8277-378bea5260ef',
       repetition: 1,
       title: 'Test - Repetition Delete',
       date: '2021-03-31T22:00:00.000Z',
-      userId: faker.random.uuid(),
+      userId: faker.datatype.uuid(),
       createdAt: '2021-03-31T22:04:20.058Z',
     };
 
