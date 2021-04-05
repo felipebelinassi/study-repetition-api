@@ -7,7 +7,7 @@ import RepetitionRepository from '../../../../src/repositories/repetitionReposit
 const getRepetitionsSpy = jest.fn();
 
 const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
-  getRepetitionsByTimeRange: getRepetitionsSpy,
+  getByTimeRange: getRepetitionsSpy,
 }));
 
 Container.set(RepetitionRepository, repetitionRepositoryMock());

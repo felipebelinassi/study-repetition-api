@@ -7,8 +7,8 @@ const createRepetitionsSpy = jest.fn();
 const getRepetitionsSpy = jest.fn();
 
 const repetitionRepositoryMock = jest.fn().mockImplementation(() => ({
-  createRepetitions: createRepetitionsSpy,
-  getRepetitionsByIdentifier: getRepetitionsSpy,
+  create: createRepetitionsSpy,
+  getByIdentifier: getRepetitionsSpy,
 }));
 
 Container.set(RepetitionRepository, repetitionRepositoryMock());
