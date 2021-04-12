@@ -37,7 +37,7 @@
 This project uses dotenv package to manage environment variables. To set your variables, create a *.env* file (or just rename the *.example.env*) which contains all the environments needed to run the application. All variables are **required**.  
 
 | Env              | Description                                  |
-| ---------------- |:-------------------------------------------- |
+|:---------------- |:-------------------------------------------- |
 | NODE_ENV         | Application environment                      |
 | PORT             | Port where the server will start             |
 | DATABASE_URL     | PostgreSQL connection string                 |
