@@ -6,10 +6,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres@2020
+      POSTGRES_DB: postgres
     ports:
       - '5432:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -18,7 +19,24 @@ services:
     volumes:
       - db-volume:/var/lib/postgresql/data
 
-networks: 
+  app:
+    container_name: study-repetition-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    links:
+      - postgres
+    environment:
+      DB_HOST: postgres
+    ports:
+      - '3000:3000'
+    networks:
+      - postgres-network
+
+networks:
   postgres-network:
     driver: bridge
 
