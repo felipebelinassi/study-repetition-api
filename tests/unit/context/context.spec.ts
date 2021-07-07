@@ -43,6 +43,7 @@ describe('GQL context unit tests', () => {
     expect(decodedToken).toHaveProperty('logger');
     expect(decodedToken).toEqual({
       authExpired: false,
+      logger: loggerMock,
     });
   });
 });
