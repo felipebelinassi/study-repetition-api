@@ -40,7 +40,7 @@ describe('GQL context unit tests', () => {
     const context = Container.get(Context);
     const decodedToken = context.createContext()({ req: reqFake });
     expect(decodedToken).not.toHaveProperty('user');
-    expect(decodedToken).not.toHaveProperty('logger');
+    expect(decodedToken).toHaveProperty('logger');
     expect(decodedToken).toEqual({
       authExpired: false,
     });
