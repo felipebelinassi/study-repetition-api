@@ -33,6 +33,7 @@ export default class Context {
       };
     } catch (err) {
       return {
+        logger,
         authExpired: err.name === 'TokenExpiredError',
       };
     }
